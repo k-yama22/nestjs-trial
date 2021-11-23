@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.model';
 
@@ -18,6 +18,14 @@ export class UsersService {
     return users;
   }
 
+  getUserById(id: number): User {
+    const target = this.users.find((user) => user.id === id);
+    if (!target) {
+      throw new NotFoundException();
+    }
+    return target;
+  }
+
   createUser(createUserDto: CreateUserDto): User {
     const { name, age } = createUserDto;
     const user = {
@@ -27,5 +35,12 @@ export class UsersService {
     };
     this.users.push(user);
     return user;
+  }
+
+  updateUserAge(id: number, age: number): User {
+    // 指定したidのuserを取得。存在しない場合404エラーを返却。
+    const target = this.getUserById(id);
+    target.age = age;
+    return target;
   }
 }
