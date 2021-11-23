@@ -2,11 +2,15 @@ import {
   Body,
   Controller,
   Get,
+  Param,
+  ParseIntPipe,
+  Patch,
   Post,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UserAgeValidationPipe } from './pipes/user-age-check-validation.pipe';
 
 import { User } from './user.model';
 import { UsersService } from './users.service';
@@ -25,5 +29,13 @@ export class UsersController {
   // @Bodyでrequest.bodyを全取得。
   createUser(@Body() createUserDto: CreateUserDto): User {
     return this.userService.createUser(createUserDto);
+  }
+
+  @Patch(':id/age')
+  updateUserAge(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('age', UserAgeValidationPipe) age: number,
+  ): User {
+    return this.userService.updateUserAge(id, age);
   }
 }
