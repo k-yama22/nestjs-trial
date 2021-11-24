@@ -24,6 +24,11 @@ export class UsersController {
     return this.userService.getUsers();
   }
 
+  @Get(':id')
+  getUserById(@Param('id', ParseIntPipe) id: number): User {
+    return this.userService.getUserById(id);
+  }
+
   @Post()
   @UsePipes(ValidationPipe)
   // @Bodyでrequest.bodyを全取得。
