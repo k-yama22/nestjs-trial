@@ -37,6 +37,11 @@ export class UsersService {
     return user;
   }
 
+  deleteUser(id: number): void {
+    const target = this.getUserById(id);
+    this.users = this.users.filter((user) => user.id !== target.id);
+  }
+
   updateUserAge(id: number, age: number): User {
     // 指定したidのuserを取得。存在しない場合404エラーを返却。
     const target = this.getUserById(id);

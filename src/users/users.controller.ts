@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -34,6 +35,11 @@ export class UsersController {
   // @Bodyでrequest.bodyを全取得。
   createUser(@Body() createUserDto: CreateUserDto): User {
     return this.userService.createUser(createUserDto);
+  }
+
+  @Delete(':id')
+  deleteUser(@Param('id', ParseIntPipe) id: number): void {
+    return this.userService.deleteUser(id);
   }
 
   @Patch(':id/age')
